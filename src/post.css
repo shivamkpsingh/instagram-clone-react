@@ -1,3 +1,7 @@
+.app__posts{
+  padding: 20px;
+}
+
 .post {
   max-width: 500px;
   background-color: white;

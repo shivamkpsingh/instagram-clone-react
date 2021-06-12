@@ -4,7 +4,7 @@ import './ImageUpload.css';
 import { storage, db } from './firebase'
 import firebase from "firebase";
 
-const ImageUpload = (username) => {
+const ImageUpload = ({username}) => {
     const [caption, setCaption] = useState('')
     const [image, setImage] = useState(null)
     // const[url,setUrl]=useState('')
@@ -42,8 +42,8 @@ const ImageUpload = (username) => {
                         db.collection("posts").add({
                             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                             caption: caption,
-                            imgurl: url,
-                            username: username,
+                            imageUrl: url,
+                            username: username
                         })
                         setProgress(0)
                         setCaption("")
@@ -54,8 +54,8 @@ const ImageUpload = (username) => {
     }
 
     return (
-        <div>
-            <progress value={progress} max="100"></progress>
+        <div className="imageupload">
+            <progress className="imageupload__progress" value={progress} max="100"></progress>
             <input type="text" placeholder="Enter a Caption" onChange={event => setCaption(event.target.value)} />
             <input type="file" onChange={handleChange} />
             <Button className="imageupload__button" onClick={handleupload}>upload</Button>
