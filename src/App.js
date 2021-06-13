@@ -7,7 +7,7 @@ import { db, auth } from "./firebase";
 import Button from "@material-ui/core/Button";
 import Input from "@material-ui/core/Input";
 import ImageUpload from "./ImageUpload";
-import InstagramEmbed from 'react-instagram-embed';
+import InstagramEmbed from "react-instagram-embed";
 
 function getModalStyle() {
   const top = 50;
@@ -55,14 +55,16 @@ const App = () => {
   }, [user, username]);
 
   useEffect(() => {
-    db.collection("posts").orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
-      setPosts(
-        snapshot.docs.map((doc) => ({
-          id: doc.id,
-          post: doc.data(),
-        }))
-      );
-    });
+    db.collection("posts")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) => {
+        setPosts(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            post: doc.data(),
+          }))
+        );
+      });
   }, []);
 
   const signUp = (event) => {
@@ -89,7 +91,6 @@ const App = () => {
 
   return (
     <div className="app">
-
       <Modal open={open} onClose={() => setOpen(false)}>
         <div style={modalStyle} className={classes.paper}>
           <form className="app__signup">
@@ -168,42 +169,41 @@ const App = () => {
             <Button onClick={() => setOpen(true)}>sign Up</Button>
           </div>
         )}
-
       </div>
 
       <div className="app__posts">
-        {posts.map(({ id, post }) => (
-          <Post
-            key={id}
-            caption={post.caption}
-            username={post.username}
-            imageUrl={post.imageUrl}
+        <div className="app__postsleft">
+          {posts.map(({ id, post }) => (
+            <Post
+              key={id}
+              caption={post.caption}
+              username={post.username}
+              imageUrl={post.imageUrl}
+            />
+          ))}
+        </div>
+        <div className="app__postsright">
+          <InstagramEmbed
+            url="https://instagram/p/Zw9o4/"
+            clientAccessToken="123|456"
+            maxWidth={320}
+            hideCaption={true}
+            containerTagName="div"
+            protocol=""
+            injectScript
+            onLoading={() => {}}
+            onSuccess={() => {}}
+            onAfterRender={() => {}}
+            onFailure={() => {}}
           />
-        ))}
-
-
-        <InstagramEmbed
-          url='https://www.instagram.com/p/CQAq9UaDlos/?utm_source=ig_web_copy_link'
-          clientAccessToken='123|456'
-          maxWidth={320}
-          hideCaption={false}
-          containerTagName='div'
-          protocol=''
-          injectScript
-          onLoading={() => { }}
-          onSuccess={() => { }}
-          onAfterRender={() => { }}
-          onFailure={() => { }}
-        />
+        </div>
       </div>
-
 
       {user?.displayName ? (
         <ImageUpload username={user.displayName} />
       ) : (
         <h3>Sorry you need to login to upload</h3>
       )}
-
     </div>
   );
 };
