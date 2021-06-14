@@ -176,6 +176,8 @@ const App = () => {
           {posts.map(({ id, post }) => (
             <Post
               key={id}
+              postId={id}
+              user={user}
               caption={post.caption}
               username={post.username}
               imageUrl={post.imageUrl}
@@ -202,7 +204,7 @@ const App = () => {
       {user?.displayName ? (
         <ImageUpload username={user.displayName} />
       ) : (
-        <h3>Sorry you need to login to upload</h3>
+        <h3 className="post__imageuploadtext">Sorry you need to login to upload</h3>
       )}
     </div>
   );
